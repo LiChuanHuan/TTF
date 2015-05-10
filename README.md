@@ -2,7 +2,7 @@
 
 ##English Description:
 
-You can use this tools to make PHP AND C# Class File from database table.
+You can use this tools to make PHP and C# Class File from database table.
 
 ###How can I use this tool?
 
