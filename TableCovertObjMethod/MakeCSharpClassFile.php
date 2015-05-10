@@ -53,10 +53,10 @@
 			echo 'Field:'.$Field.' Type:'.$Type.' Comment:'.$Comment.'<br>';
 			$fp = fopen($objDirName."/".$TableName.'.cs', 'a');
 			$Type = $this->ConvertType($Type);
-			$TableClass = "    ".'///<summary>'.$Type." \r\n". 
+			$TableClass = "    ".'///<summary>'." \r\n". 
 			"    ".'///'.$Comment." \r\n". 
 			"    ".'///</summary>'." \r\n".
-			"    public $Type $"."$Field".";\r\n";
+			"    public $Type "."$Field".";\r\n";
 
 			mb_convert_encoding($TableClass, 'UTF-8');
 			fwrite($fp, $TableClass);
@@ -68,8 +68,7 @@
 		function MakeClassFildEnd($objDirName,$TableName)
 		{
 			$fp = fopen($objDirName."/".$TableName.'.cs', 'a');
-			$TableClass = "}\r\n".
-			"?>";
+			$TableClass = "}\r\n";
 
 			mb_convert_encoding($TableClass, 'UTF-8');
 			fwrite($fp, $TableClass);
