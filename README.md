@@ -1,4 +1,4 @@
-#TTO (Make Class File From DB is Easy  )
+#TTO (Make Class File From DB Is Easy  )
 
 ##English Description:
 
