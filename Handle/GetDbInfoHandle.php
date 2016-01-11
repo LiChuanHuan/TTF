@@ -2,8 +2,6 @@
 
 namespace Handle;
 
-require '../vendor/autoload.php';
-
 use Lib\Db\db_manager;
 
 db_manager::getInstance();
