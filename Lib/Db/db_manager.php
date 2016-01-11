@@ -9,7 +9,7 @@ namespace Lib\Db;
 //       Author:Larry.Li
 //       email : nis131914@gmail.com
 //       功能簡介：可以使用這個工具去直接從資料庫的表格產生相對應的PHP檔
-//       Copyright ©2015 仙化似風(國同學)
+//       Copyright ©2015 仙化似風(國同學
 //----------------------------------------------
 
 /**
@@ -34,7 +34,7 @@ class db_manager
     public static function getInstance()
     {
         if (empty(self::$instance)) {
-            $db_config = json_decode(file_get_contents(dirname(__FILE__).'\db_config.json'));
+            $db_config = json_decode(file_get_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'db_config.json'));
             self::$db_table_name = $db_config->dbName;
             self::$instance = mysqli_connect($db_config->host, $db_config->user, $db_config->pwd, $db_config->dbName) or die('連接資料庫錯誤，請檢查使用者帳戶及密碼是否有權限.');
             mysqli_query(self::$instance, "SET NAMES 'utf8'");
@@ -56,7 +56,7 @@ class db_manager
     /**
      * 取得資料庫中所有表的資訊，含表名、表注解
      *格式：[{"TABLE_NAME":"user","TABLE_COMMENT":"用戶資料表"}].
-     * 
+     *
      * @return Array 所有資料表資訊陣列
      */
     public static function get_all_table_info()
