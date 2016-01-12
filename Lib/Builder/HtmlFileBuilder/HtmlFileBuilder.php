@@ -8,98 +8,27 @@
 
 namespace Lib\Builder\HtmlFileBuilder;
 
-use Lib\Builder\BuilderInterface;
+use Lib\Builder\BaseFileBuilder;
 use Lib\Db\TableInfo;
 
 /**
- * Class Html檔建立器
+ * Html檔產生器
  * @package Lib\Builder\HtmlFileBuilder
  */
-class HtmlFileBuilder implements BuilderInterface
+class HtmlFileBuilder extends BaseFileBuilder
 {
-    protected $enable;
-    protected $tableInfo;
-    protected $field_prefix;
-    protected $controllerName;
-    protected $outFolder;
-
     /**
      * HtmlFileBuilder constructor.
      * @param $tableInfo
      */
     public function __construct(TableInfo $tableInfo)
     {
-        //設定這個建造器是否啟動
-        $run_function =trim($_GET['runMethod']);
-        $this->enable = stripos($run_function,"gethtml");
-
-        $this->tableInfo = $tableInfo;
-        $this->field_prefix = strtoupper($this->tableInfo->getTableName());
-        $this->controllerName = $this->getCtrlNameByTableName($this->tableInfo->getTableName());
-        $this->outFolder = OUT_FOLDER;
-    }
-
-    /**
-     * 取得啟動值
-     * @return int
-     */
-    public function getEnable()
-    {
-        return $this->enable;
-    }
-
-    /**
-     * 取得控制器名稱
-     * @param String $tableName 資料表名
-     * @return string 控制器名
-     */
-    public function getCtrlNameByTableName($tableName)
-    {
-        $tableName = str_replace('pbet_','',$tableName);
-        $tableName = ucfirst($tableName);
-        $tableName = str_replace('_','',$tableName);
-        return $tableName;
-    }
-
-
-    /**
-     * 建立語言檔
-     * @return bool 建立結果
-     */
-    public function builder()
-    {
-        $this->check_dir($this->controllerName);
+        parent::__construct($tableInfo);
+        $this->_setEnable("gethtml");
         $this->check_dir('html');
-        $content = $this->make_content();
-        $resulte = $this->write_file($content);
-        return $resulte;
-
-    }
-
-    /**
-     * 檢查資料夾是否存在，如果不存在就建立一個新的資料夾。
-     * 建立完成後會將資料夾的路徑保存到$this->outFolder。
-     * @param $dirname 資料夾名稱
-     */
-    public function check_dir($dirname)
-    {
-        if(!is_dir($this->outFolder.DIRECTORY_SEPARATOR.$dirname))
-        {
-            mkdir($this->outFolder.DIRECTORY_SEPARATOR.$dirname);
-        }
-
-        $this->outFolder .= DIRECTORY_SEPARATOR.$dirname;
     }
 
 
-    /**
-     * 回傳資料夾路徑
-     * @return String 資料夾路徑
-     */
-    public function getOutFolder()
-    {
-        return $this->outFolder;
-    }
 
     /**
      * 製作HTML檔內容
@@ -146,16 +75,6 @@ class HtmlFileBuilder implements BuilderInterface
     }
 
 
-    /**
-     * 取得範本內容
-     * @param $template_path 範本路徑
-     * @return string 範本內容
-     */
-    public function get_template($template_path)
-    {
-        $template_content = file_get_contents($template_path);
-        return $template_content;
-    }
 
     /**
      * 寫入檔案
