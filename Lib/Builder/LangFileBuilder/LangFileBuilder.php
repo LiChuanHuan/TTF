@@ -20,6 +20,7 @@ class LangFileBuilder implements BuilderInterface
     protected $enable;
     protected $tableInfo;
     protected $field_prefix;
+    protected $controllerName;
     protected $outFolder;
 
     /**
@@ -34,7 +35,23 @@ class LangFileBuilder implements BuilderInterface
 
         $this->tableInfo = $tableInfo;
         $this->field_prefix = strtoupper($this->tableInfo->getTableName());
+        $this->controllerName = $this->getCtrlNameByTableName($this->tableInfo->getTableName());
+        $this->outFolder = OUT_FOLDER;
     }
+
+    /**
+     * 取得控制器名稱
+     * @param String $tableName 資料表名
+     * @return string 控制器名
+     */
+    public function getCtrlNameByTableName($tableName)
+    {
+        $tableName = str_replace('pbet_','',$tableName);
+        $tableName = ucfirst($tableName);
+        $tableName = str_replace('_','',$tableName);
+        return $tableName;
+    }
+
 
     /**
      * 取得啟動值
@@ -52,6 +69,7 @@ class LangFileBuilder implements BuilderInterface
      */
     public function builder()
     {
+        $this->check_dir($this->controllerName);
         $this->check_dir('lang');
         $content = $this->make_content();
         $resulte = $this->write_file($content);
@@ -66,12 +84,12 @@ class LangFileBuilder implements BuilderInterface
      */
     public function check_dir($dirname)
     {
-        if(!is_dir(OUT_FOLDER.DIRECTORY_SEPARATOR.$dirname))
+        if(!is_dir($this->outFolder.DIRECTORY_SEPARATOR.$dirname))
         {
-            mkdir(OUT_FOLDER.DIRECTORY_SEPARATOR.$dirname);
+            mkdir($this->outFolder.DIRECTORY_SEPARATOR.$dirname);
         }
 
-        $this->outFolder = OUT_FOLDER.DIRECTORY_SEPARATOR.$dirname;
+        $this->outFolder .= DIRECTORY_SEPARATOR.$dirname;
     }
 
     /**

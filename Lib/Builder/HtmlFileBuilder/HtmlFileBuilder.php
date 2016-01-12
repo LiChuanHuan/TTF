@@ -36,6 +36,7 @@ class HtmlFileBuilder implements BuilderInterface
         $this->tableInfo = $tableInfo;
         $this->field_prefix = strtoupper($this->tableInfo->getTableName());
         $this->controllerName = $this->getCtrlNameByTableName($this->tableInfo->getTableName());
+        $this->outFolder = OUT_FOLDER;
     }
 
     /**
@@ -67,6 +68,7 @@ class HtmlFileBuilder implements BuilderInterface
      */
     public function builder()
     {
+        $this->check_dir($this->controllerName);
         $this->check_dir('html');
         $content = $this->make_content();
         $resulte = $this->write_file($content);
@@ -81,12 +83,12 @@ class HtmlFileBuilder implements BuilderInterface
      */
     public function check_dir($dirname)
     {
-        if(!is_dir(OUT_FOLDER.DIRECTORY_SEPARATOR.$dirname))
+        if(!is_dir($this->outFolder.DIRECTORY_SEPARATOR.$dirname))
         {
-            mkdir(OUT_FOLDER.DIRECTORY_SEPARATOR.$dirname);
+            mkdir($this->outFolder.DIRECTORY_SEPARATOR.$dirname);
         }
 
-        $this->outFolder = OUT_FOLDER.DIRECTORY_SEPARATOR.$dirname;
+        $this->outFolder .= DIRECTORY_SEPARATOR.$dirname;
     }
 
 
@@ -100,8 +102,8 @@ class HtmlFileBuilder implements BuilderInterface
     }
 
     /**
-     * 製作語言檔內容
-     * @return string 語言檔內容
+     * 製作HTML檔內容
+     * @return string HTML檔內容
      */
     public function make_content()
     {
@@ -164,7 +166,7 @@ class HtmlFileBuilder implements BuilderInterface
     {
         $template_content = $this->get_template(dirname(__FILE__) . DIRECTORY_SEPARATOR . "template.html");
         $html_file_name = strtolower(str_replace('_', '', $this->tableInfo->getTableName()));
-        $fp = fopen($this->getOutFolder() . DIRECTORY_SEPARATOR . 'index.html', 'w');
+        $fp = fopen($this->getOutFolder() . DIRECTORY_SEPARATOR .$html_file_name.'_index.html', 'w');
 
         $template_content = str_replace("{t:ctrlName}", $this->controllerName, $template_content);
         $template_content = str_replace("{t:table_head}", $content->table_head, $template_content);

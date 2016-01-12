@@ -50,7 +50,7 @@
             <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
         </div>
         <div class="am-modal-bd">
-            檔案建立完成，我們為您省下了<h2 style="color:red">100000000</h2>分鐘！！
+            檔案建立完成，請至<h2 style="color:red">\Out</h2>資料夾取得您的檔案！
         </div>
     </div>
 </div>
