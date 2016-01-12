@@ -1,71 +1,47 @@
-#TTO (Make Class File From DB Is Easy  )
+#TTO (Make File From DB Is Easy  )
 
-##English Description:
 
-You can use this tools to make PHP and C# Class File from database table.
+##說明
 
-###How can I use this tool?
+你可以使用這個工具從資料庫的資料表去建立對應的檔案。
+(目前的功能需求是針對thinkcmf2.0而設計的，不過依然可以很簡單的進行客制化)
 
-####step1:
-Download TTO.php and TableCovertObjMethod folder.
-
-####step2:
-Edit TTO.php.And then you have to set the value of Variable:
-```sh
-	$phpObjDirName="PHPObj"; // This is the Folder for Save the PHP Class File 
-	$csharpObjDirName="CSharpObj"; // This is the Folder for Save the C# Class File
-	$host = "localhost"; //Your database host
-	$user = "root"; //Your database user
-	$pwd = ""; //Your database user password
-	$dbName = "testdb" ; //Your database Name 
-	$TableName = 'user'; //This is table name in database
-```
-
-####step3:
-Run TTO.php
-
-####step4:
-You can find Your Class File in 'PHPObj' folder and 'CSharpObj'.(default)
-
-###The Future
-I hope to make the GUI.And then let us can more convenient to use this tools.
-
-###If You Have Question!
-You can email: nis131914@gmail.com
-or
-You can use skype:nis131914@hotmail.com
-
-##Thank you a lot!
-
-##中文說明
-
-你可以使用這個工具從資料庫的表格去建立對應的PHP 類別檔和 C#類別檔
+###執行需求
+php 5.4 以上
+mysql 5.x 以上
 
 ###我要如何去使用這個工具呢？
 
 ####步驟1:
-下載 TTO.php 和 TableCovertObjMethod 資料夾。
+下載本項目的資料到本地資料夾
+
 
 ####步驟2:
-編輯TTO.php檔。然後你必須去設定一些變數值：
+編輯Lib\Db\db_config.json檔來設定資料庫的基本資料
 ```sh
-	$phpObjDirName="PHPObj"; // 這個是用來設定要存放php類別檔的資料夾名稱 
-	$csharpObjDirName="CSharpObj"; // 這個是用來設定要存放c#類別檔的資料夾名稱 
-	$host = "localhost"; //這是你的資料庫位置
-	$user = "root"; //這是你的使用者名稱
-	$pwd = ""; //這是你的使用者密碼
-	$dbName = "testdb" ; //這是你的資料庫名稱 
-	$TableName = 'user'; //這是你要建立檔案的資料表名
+"host":"localhost", //資料庫的路徑
+"user":"root",  //資料庫的使用者
+"pwd":"",   //資料庫的使用者密碼
+"dbName":"testdb"   //要使用的資料庫名稱
 ```
 
-###步驟3:
-執行TTO.php
+####步驟3:
+啟動伺服器並執行index.php
 
-###步驟4:
-你可以在「PHPObj」和「CSharpObj」資料夾找到你的類別檔。(預設)
+####步驟4:
+針對資料表指定自己想要的操作。
 
-###未來展望
-我希望可以去制作一個圖形化的介面。讓大家可以更方便的使用這個工具。
+###如何新增自訂義的檔案類型？
+你可以在Lib\Builder裡新建一個新的資料夾，在資料夾裡新建一個自己的檔案產生器。
+檔案產生器可以繼承BaseFileBuilder,然後你必需自己實作make_content()方法和write_file($content)方法。
+這邊要特別注意的是建構子中的
+```sh
+parent::__construct($tableInfo);
+$this->_setEnable("gethtml");
+$this->check_dir('html');
+```
+_setEnable方法會從前端get方法取得runMethod參數值，根據方法參數來決定這個產生器是否啟動。
+check_dir方法則是增加一層子目錄。如果這邊不調用，預設檔案會存在[\Out\資料表名\]中。
 
 ###假如有任何的問題！
 你可以寄email: nis131914@gmail.com
