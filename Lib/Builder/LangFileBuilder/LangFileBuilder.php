@@ -8,14 +8,16 @@
 
 namespace Lib\Builder\LangFileBuilder;
 
+use Lib\Builder\BuilderInterface;
 use Lib\Db\TableInfo;
 
 /**
  * Class 語言檔建立器
  * @package Lib\Builder\LangFileBuilder
  */
-class LangFileBuilder
+class LangFileBuilder implements BuilderInterface
 {
+    protected $enable;
     protected $tableInfo;
     protected $field_prefix;
     protected $outFolder;
@@ -26,8 +28,21 @@ class LangFileBuilder
      */
     public function __construct(TableInfo $tableInfo)
     {
+        //設定這個建造器是否啟動
+        $run_function =trim($_GET['runMethod']);
+        $this->enable = stripos($run_function,"getlanguage");
+
         $this->tableInfo = $tableInfo;
         $this->field_prefix = strtoupper($this->tableInfo->getTableName());
+    }
+
+    /**
+     * 取得啟動值
+     * @return int
+     */
+    public function getEnable()
+    {
+        return $this->enable;
     }
 
 
@@ -87,13 +102,13 @@ class LangFileBuilder
 
     /**
      * 取得範本內容
-     * @param $templetepath 範本路徑
+     * @param $template_path 範本路徑
      * @return string 範本內容
      */
-    public function get_templete($templetepath)
+    public function get_templete($template_path)
     {
-        $templete_content = file_get_contents($templetepath);
-        return $templete_content;
+        $template_content = file_get_contents($template_path);
+        return $template_content;
     }
 
     /**
@@ -103,13 +118,13 @@ class LangFileBuilder
      */
     public function write_file($content)
     {
-        $templete_content = $this->get_templete(dirname(__FILE__).DIRECTORY_SEPARATOR."templete.php");
+        $template_content = $this->get_templete(dirname(__FILE__).DIRECTORY_SEPARATOR."template.php");
         $lang_file_name = strtolower(str_replace('_','',$this->tableInfo->getTableName()));
         $fp = fopen($this->getOutFolder().DIRECTORY_SEPARATOR.$lang_file_name.'.php', 'w');
-        $templete_content = str_replace("{:content}",$content,$templete_content);
+        $template_content = str_replace("{t:content}",$content,$template_content);
 
-        mb_convert_encoding($templete_content, 'UTF-8');
-        fwrite($fp, $templete_content);
+        mb_convert_encoding($template_content, 'UTF-8');
+        fwrite($fp, $template_content);
         fclose($fp);
 
         return 1;

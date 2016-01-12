@@ -1,0 +1,49 @@
+<admintpl file="header"/>
+</head>
+
+<body>
+<div class="wrap js-check-wrap">
+    <table id="admin_table" class="table table-hover table-bordered display">
+        <thead>
+        <tr>
+            {t:table_head}
+            <th>{:L('ACTION')}</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            {t:table_head}
+            <th>{:L('ACTION')}</th>
+        </tr>
+        </tfoot>
+    </table>
+    <div class="pagination">{$page}</div>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var table = $('#admin_table').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "{:UU('Admin/{t:ctrlName}/dataTableGetRows')}",
+            "language": {
+                url: '__PUBLIC__/js/chinese.json'
+            },
+            "columns": [
+{t:columns}
+                {
+                    "data": "id",
+                    "render": function (data, type, row) {
+                        var element = '';
+                        var id = row["id"];
+                        element += " <a href='{:U('{t:ctrlName}/open')}&id=" + id + "'>{:L('OPEN')}</a> | <a class='js-ajax-edit' href='{:U('{t:ctrlName}/edit')}&id=" + id + ")}''>{:L('EDIT')}</a> |  <a class='js-ajax-delete' href='{:U('{t:ctrlName}/close')}&id=" + id + ")}''>{:L('CLOSE')}</a>";
+                        return element;
+                    }
+                }
+            ]
+        });
+    });
+</script>
+</body>
+
+</html>

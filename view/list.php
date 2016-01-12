@@ -103,7 +103,7 @@
                     builderArr.push(builderMethod);
                 });
 
-                var $btn = $('.btn-loading-example')
+                var $btn = $('.btn-loading-example');
                 $btn.button('loading');
                 $.getJSON("", {handle: 'RunBuilder', table_name: tableName, runMethod:JSON.stringify(builderArr)}, function (json, textStatus) {
                     if(json.result){
