@@ -54,7 +54,7 @@ class LangFileBuilder extends BaseFileBuilder
     public function write_file($content)
     {
         $template_content = $this->get_template(dirname(__FILE__).DIRECTORY_SEPARATOR."template.php");
-        $lang_file_name = strtolower(str_replace('_','',$this->tableInfo->getTableName()));
+        $lang_file_name = strtolower($this->controllerName);
         $fp = fopen($this->getOutFolder().DIRECTORY_SEPARATOR.$lang_file_name.'.php', 'w');
         $template_content = str_replace("{t:content}",$content,$template_content);
 

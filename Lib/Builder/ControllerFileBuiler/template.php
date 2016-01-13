@@ -21,7 +21,7 @@ class {t:controller_name}Controller extends AdminDataTableController
     /**
      * {t:controller_name}列表显示页面.
      */
-    public function {t:table_name}_index()
+    public function index()
     {
         $this->display();
     }
