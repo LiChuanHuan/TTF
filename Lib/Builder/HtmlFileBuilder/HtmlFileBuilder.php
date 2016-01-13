@@ -85,7 +85,7 @@ class HtmlFileBuilder extends BaseFileBuilder
     {
         $template_content = $this->get_template(dirname(__FILE__) . DIRECTORY_SEPARATOR . "template.html");
         $html_file_name = strtolower(str_replace('_', '', $this->tableInfo->getTableName()));
-        $fp = fopen($this->getOutFolder() . DIRECTORY_SEPARATOR .$html_file_name.'_index.html', 'w');
+        $fp = fopen($this->getOutFolder() . DIRECTORY_SEPARATOR .'index.html', 'w');
 
         $template_content = str_replace("{t:ctrlName}", $this->controllerName, $template_content);
         $template_content = str_replace("{t:table_head}", $content->table_head, $template_content);
