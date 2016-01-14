@@ -2,5 +2,5 @@
 	"host":"localhost",
 	"user":"root",
 	"pwd":"",
-	"dbName":"testdb"
+	"dbName":"phpbet"
 }

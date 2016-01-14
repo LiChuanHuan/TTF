@@ -1,6 +1,6 @@
 <?php
 
-namespace Admin\Controller;
+namespace {t:controller_name}\Controller;
 
 use Common\Controller\AdminDataTableController;
 
@@ -14,8 +14,8 @@ class {t:controller_name}Controller extends AdminDataTableController
     public function _initialize()
     {
         parent::_initialize();
-        $this->model = D('Common/{t:controller_name}');
-        $this->setUseModel('Common/{t:controller_name}');
+        $this->model = D('{t:controller_name}/{t:controller_name}');
+        $this->setUseModel('{t:controller_name}/{t:controller_name}');
     }
 
     /**
@@ -47,7 +47,7 @@ class {t:controller_name}Controller extends AdminDataTableController
             if ($this->model->create()) {
                 $result = $this->model->add();
                 if ($result !== false) {
-                    $this->success('添加成功！', U('{t:controller_name}/{t:table_name}_index'));
+                    $this->success('添加成功！', U('{t:controller_name}/index'));
                 } else {
                     $this->error('添加失败！');
                 }
@@ -83,7 +83,7 @@ class {t:controller_name}Controller extends AdminDataTableController
             if ($model) {
                 $result = $this->model->save($data);
                 if ($result) {
-                    $this->success('{t:controller_name}修改成功！', U('{t:controller_name}/{t:table_name}_index'));
+                    $this->success('{t:controller_name}修改成功！', U('{t:controller_name}/index'));
                 } else {
                     $this->error('{t:controller_name}修改失败！');
                 }

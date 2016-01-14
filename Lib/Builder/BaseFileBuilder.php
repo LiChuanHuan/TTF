@@ -83,10 +83,15 @@ class BaseFileBuilder implements BuilderInterface
      */
     public function getCtrlNameByTableName($tableName)
     {
+        $ctrlName='';
         $tableName = str_replace('pbet_', '', $tableName);
-        $tableName = ucfirst($tableName);
-        $tableName = str_replace('_', '', $tableName);
-        return $tableName;
+        $tableNameArry = explode('_',$tableName);
+
+        foreach($tableNameArry as $name)
+        {
+            $ctrlName .= ucfirst($name);
+        }
+        return $ctrlName;
     }
 
     /**
