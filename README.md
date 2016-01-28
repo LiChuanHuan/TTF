@@ -1,4 +1,4 @@
-#TTO (Make File From DB Is Easy  )
+#TTF (Table To File  )
 
 
 ##說明
