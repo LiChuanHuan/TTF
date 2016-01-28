@@ -18,7 +18,7 @@ namespace Lib\Db;
 class db_manager
 {
     private static $instance;
-    private static $db_table_name;
+    private static $db_name;
 
     private function __construct()
     {
@@ -35,7 +35,7 @@ class db_manager
     {
         if (empty(self::$instance)) {
             $db_config = json_decode(file_get_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'db_config.json'));
-            self::$db_table_name = $db_config->dbName;
+            self::$db_name = $db_config->dbName;
             self::$instance = mysqli_connect($db_config->host, $db_config->user, $db_config->pwd, $db_config->dbName) or die('連接資料庫錯誤，請檢查使用者帳戶及密碼是否有權限.');
             mysqli_query(self::$instance, "SET NAMES 'utf8'");
         }
@@ -50,7 +50,7 @@ class db_manager
      */
     public static function getDbName()
     {
-        return self::$db_table_name;
+        return self::$db_name;
     }
 
     /**
@@ -61,7 +61,7 @@ class db_manager
      */
     public static function get_all_table_info()
     {
-        $query = "select TABLE_NAME,TABLE_COMMENT from information_schema.tables where table_schema='".self::$db_table_name."'";
+        $query = "select TABLE_NAME,TABLE_COMMENT from information_schema.tables where table_schema='".self::$db_name."'";
         $result = mysqli_query(self::$instance, $query) or die('查詢資料庫全資料表資料出錯');
         $table_info_arry = array();
         foreach ($result as $key => $row) {
